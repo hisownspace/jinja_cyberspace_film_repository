@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='nav_bar.css') }}">
+<div class="navbar">
+  <div class="navbar-logo">
+
+  </div>
+  <div class="navbar-search">
+    <form class="nav-search-form" method="post" action="/search">
+      <div>
+        <input class="nav-search-input">
+        <button>Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="navbar-profile">
+    <a href="/films/add" class="navbar-links">Add Film</a>
+    <a href="/actors/add" class="navbar-links">Add Actor</a>
+  </div>
+</div>
