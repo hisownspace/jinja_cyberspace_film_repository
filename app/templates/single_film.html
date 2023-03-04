@@ -37,11 +37,14 @@
   </div>
   <div class="film-extra-detail">
       <h2>Top Cast:</h2>
-      <!-- <div class="single-film-cast-cards">
-        {film?.cast?.map(actor => {
+      <div class="single-film-cast-cards">
+      {% for star in film.cast %}
+      {% include 'actor_card.html' %}
+        <!-- {film?.cast?.map(actor => {
           return <ActorCard key={actor.name} actor={actor} />
-        })}
-      </div> -->
+        })} -->
+      {% endfor %}
+      </div>
   </div>
   <DeleteFilmModal showModal={showModal} setShowModal={setShowModal} title={film?.title} id={film?.id} />
 </div>

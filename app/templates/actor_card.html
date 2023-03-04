@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='actor_card.css') }}">
+
+<a href="/actors/{{star.id}}">
+    <div class="actor-card">
+        <div class="actor-card-image-container">
+            <img class="actor-card-photo" src="{{star.photo_url}}" alt="{{star.name}}" />
+        </div>
+        <p class="actor-card-name">
+            {{star.name}}
+        </p>
+    </div>
+</a>
