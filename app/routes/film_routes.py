@@ -13,10 +13,12 @@ def all_films():
 
 @film_routes.route("/<int:id>")
 def one_film(id):
+  print("actor routes!!!!!")
   film = Film.query.get(id)
   if not film:
     return { "errors": "Film not found" }, 404
-  return film.to_dict(), 200
+  return render_template("single_film.html", film=film)
+  # return film.to_dict(), 200
 
 @film_routes.route("/count")
 def film_count():

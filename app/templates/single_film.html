@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='single_film.css') }}">
+
+<div class="single-film-main">
+  <div class="single-film-top">
+  <div class="single-film-focus">
+    <div class="single-film-heading">
+      {{film.title}}
+    </div>
+    <div class="single-film-photo-container">
+      <img alt={{film.title}} class="single-film-photo" src={{film.photo_url}} />
+    </div>
+    <div class="single-film-genre">
+      <a href="/genres/{{film.genre.id}}" class="single-film-genre-tab">
+        {{film.genre.name}}
+      </a>
+    </div>
+    <div class="single-film-plot">
+      {{film.plot}}
+    </div>
+    <div class="single-film-cast">
+      <div>
+        Stars&emsp;
+          <div class="cast-list">
+        {% for star in film.cast %}
+
+            <a href="/actors/{{star.id}}">{{star.name}}</a>{% if loop.index < film.cast|length %}&emsp;-&emsp;{% endif %}{%endfor %}</div></div>
+      <div class="delete-and-edit-film">
+        <a class="edit-actor-link" href="/films/{{film.id}}/edit">Edit Film</a>
+            &emsp;
+            <div class="delete-actor-link"><a href="/films/{{film.id}}/delete">Delete Film</a></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="film-extra-detail">
+      <h2>Top Cast:</h2>
+      <!-- <div class="single-film-cast-cards">
+        {film?.cast?.map(actor => {
+          return <ActorCard key={actor.name} actor={actor} />
+        })}
+      </div> -->
+  </div>
+  <DeleteFilmModal showModal={showModal} setShowModal={setShowModal} title={film?.title} id={film?.id} />
+</div>
+
+{% endblock %}
