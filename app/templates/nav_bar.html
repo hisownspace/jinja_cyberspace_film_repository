@@ -4,10 +4,10 @@
 
   </div>
   <div class="navbar-search">
-    <form class="nav-search-form" method="post" action="/search">
+    <form class="nav-search-form" method="get" action="/search">
       <div>
-        <input class="nav-search-input">
-        <button>Submit</button>
+        <input type="text" id="query" name="query"  class="nav-search-input">
+        <button type="submit" id="submit">Submit</button>
       </div>
     </form>
   </div>

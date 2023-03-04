@@ -7,6 +7,7 @@ from .config import Configuration as Config
 from .routes.actor_routes import actor_routes
 from .routes.film_routes import film_routes
 from .routes.genre_routes import genre_routes
+from .routes.search_routes import search_routes
 from .models import db, Actor
 from .seeds import seed_commands
 
@@ -21,6 +22,7 @@ app.cli.add_command(seed_commands)
 app.register_blueprint(actor_routes, url_prefix="/api/actors")
 app.register_blueprint(film_routes) 
 app.register_blueprint(genre_routes)
+app.register_blueprint(search_routes)
 
 @app.route("/")
 def index():
