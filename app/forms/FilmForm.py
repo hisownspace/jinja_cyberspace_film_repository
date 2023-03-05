@@ -11,7 +11,7 @@ class FilmForm(FlaskForm):
   year = IntegerField(validators=[NumberRange(1902, datetime.now().year)])
   plot = TextAreaField(validators=[Length(max=2000)])
   photo_url = StringField(name="Photo URL", validators=[DataRequired(), Length(max=1000), URL(require_tld=True, message="Photo must be a valid URL!")])
-  genre = SelectField(name="Genre")
+  genre = SelectField(name="Genre", coerce=int)
   castIds = SelectMultipleField(name="Cast", coerce=int)
   
   submit = SubmitField()

@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='add_film.css') }}">
+
+<div class="form-main">
+  <h1 class="add-actor-header">
+    Add a Film!
+  </h1>
+  <form class="addActorForm" method="post" action="/films/{{id}}/edit">
+    {% for field in form %}
+      {% if field.name != "submit" and field.name != "csrf_token" and field.name != "Cast" %}
+        {{field.label(class="actor-label")}}
+        {{field(class="actor-input")}}
+      {% elif field.name == "submit" %}
+        <div class="buttonHole" id="search-allowance-buttons">
+          {{field(class="submit-button")}}
+          <a href="{{url_for('index')}}" class="cancel-button">Cancel</a>
+        </div>
+      {% elif field.name == "Cast" %}
+        {{field.label(class="actor-label")}}
+        {{field}}
+      {% else %}
+        {{field}}
+      {% endif %}
+
+    {% endfor %}
+  </form>
+</div>

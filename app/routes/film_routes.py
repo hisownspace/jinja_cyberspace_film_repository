@@ -27,7 +27,6 @@ def film_count():
 @film_routes.route("/add", methods=["GET", "POST"])
 def add_film():
   form = FilmForm()
-  
 
   form.genre.choices = [(genre.id, genre.name) for genre in Genre.query.all()]
   form.castIds.choices = [(actor.id, actor.name) for actor in Actor.query.all()]
@@ -58,25 +57,26 @@ def add_film():
   if form.errors:
     print(form.errors)
   return render_template("add_film.html", form=form)
-    
-@film_routes.route("/<int:id>", methods=["PUT"])
+
+@film_routes.route("/<int:id>/edit", methods=["GET", "POST"])
 def edit_film(id):
   form = FilmForm()
 
-  form["csrf_token"].data = request.cookies["csrf_token"]
+  form.genre.choices = [(genre.id, genre.name) for genre in Genre.query.all()]
+  form.castIds.choices = [(actor.id, actor.name) for actor in Actor.query.all()]
 
+  film = Film.query.get(id)
   if form.validate_on_submit():
-    film = Film.query.get(id)
 
     film.title = form.data["title"]
     film.year = form.data["year"]
     film.plot = form.data["plot"]
     film.photo_url = form.data["photo_url"]
-    film.genre_id = form.data["genre_id"]
+    film.genre_id = form.data["genre"]
 
     # dealing with db.relationship by appending to new list, and replacing old
     # cast relationship list with new list
-    castIds = json.loads(form.data["castIds"])
+    castIds = form.data["castIds"]
     cast = []
     for actor_id in castIds:
       actor = Actor.query.get(actor_id)
@@ -86,11 +86,22 @@ def edit_film(id):
     try:
       db.session.add(film)
       db.session.commit()
-      return film.to_dict(), 200
+      return render_template("single_film.html", film=film)
     except Exception as e:
       return { "errors": str(e) }, 500
-  
-  return { "errors": form.errors }, 400
+  elif form.errors:
+    return { "errors": form.errors }, 400
+  else:
+
+
+    form.title.data = film.title
+    form.year.data = film.year
+    form.plot.data = film.plot
+    form.photo_url.data = film.photo_url
+    form.genre.data = film.genre_id
+    form.castIds.data = [star.id for star in film.cast]
+
+    return render_template("edit_film.html", form=form, id=film.id)
 
 
 @film_routes.route("/<int:id>", methods=["DELETE"])
