@@ -51,7 +51,7 @@ def add_film():
     try:
       db.session.add(film)
       db.session.commit()
-      return "Submitted!"
+      return render_template("single_film.html", film=film)
     except Exception as e:
       return "Unknown error!"
   if form.errors:
