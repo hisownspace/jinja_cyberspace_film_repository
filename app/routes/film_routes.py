@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 
 from app.models import db, Film, Actor, Genre
 from app.forms.FilmForm import FilmForm
@@ -51,7 +51,7 @@ def add_film():
     try:
       db.session.add(film)
       db.session.commit()
-      return render_template("single_film.html", film=film)
+      return redirect(f"/films/{film.id}")
     except Exception as e:
       return "Unknown error!"
   if form.errors:
@@ -86,7 +86,7 @@ def edit_film(id):
     try:
       db.session.add(film)
       db.session.commit()
-      return render_template("single_film.html", film=film)
+      return redirect(f"/films/{film.id}")
     except Exception as e:
       return { "errors": str(e) }, 500
   elif form.errors:

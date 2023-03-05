@@ -40,9 +40,6 @@
       <div class="single-film-cast-cards">
       {% for star in film.cast %}
       {% include 'actor_card.html' %}
-        <!-- {film?.cast?.map(actor => {
-          return <ActorCard key={actor.name} actor={actor} />
-        })} -->
       {% endfor %}
       </div>
   </div>
