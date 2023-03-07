@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{url_for('static', filename='single_actor.css')}}">
+
+<div class='single-actor-main'>
+  <div class='single-actor-focus'>
+    <div class='single-actor-photo-container'>
+      <img alt="{{actor.name}}" class="single-actor-photo" src="{{actor.photo_url}}" />
+    </div>
+    <div class='single-actor-heading'>
+      <h4>
+        {{actor.name}}
+      </h4>
+    </div>
+    <div class='single-actor-bio'>
+        <p>{% if actor.bio|length < 800 %}{{actor.bio}}{% else %}{{actor["bio"][:800] +
+            actor["bio"][800:actor["bio"].find(" ", 800)] + " ..."}}{% endif %}</p>
+        <p><b>Born:</b> {{actor["date_of_birth"]}} in {{actor["place_of_birth"]}}</p>
+        <div class='single-actor-options'><a class="edit-actor-link" href="/actors/{{actor['id']}}/edit">Edit Actor</a>&emsp;<div class="delete-actor-link"><a href="/actors/{{actor['id']}}/delete">Delete Actor</a></div>
+      </div>
+    </div>
+  </div>
+  <div class='single-actor-filmography'>
+    <table class='filmography-table'>
+      <thead>
+        <tr>
+          <td>
+            <h4>
+              Filmography
+            </h4>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for film in actor.filmography %}
+        <tr class="filmography-row">
+          <td class="filmography-title">
+            <a href="/films/{{film.id}}">{{film.title}}</a>
+          </td>
+          <td class="filmograph-year">
+            {{film.year}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, render_template
 from datetime import date
 
 from app.models import db, Actor, Film
@@ -47,7 +47,7 @@ def all_actors():
 def one_actor(id):
   actor = Actor.query.get(id)
   if actor:
-    return (actor.to_dict(), 200, { "Content-Type": "application/json" })
+    return render_template("single_actor.html", actor=actor.to_dict())
   return { "errors": "Actor not found!" }, 404, { "Content-Type": "application/json" }
   
 @actor_routes.route("/count")

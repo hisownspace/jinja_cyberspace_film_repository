@@ -13,12 +13,10 @@ def all_films():
 
 @film_routes.route("/<int:id>")
 def one_film(id):
-  print("actor routes!!!!!")
   film = Film.query.get(id)
   if not film:
     return { "errors": "Film not found" }, 404
   return render_template("single_film.html", film=film)
-  # return film.to_dict(), 200
 
 @film_routes.route("/count")
 def film_count():
@@ -92,8 +90,6 @@ def edit_film(id):
   elif form.errors:
     return { "errors": form.errors }, 400
   else:
-
-
     form.title.data = film.title
     form.year.data = film.year
     form.plot.data = film.plot
@@ -103,6 +99,9 @@ def edit_film(id):
 
     return render_template("edit_film.html", form=form, id=film.id)
 
+@film_routes.route("/<int:id>/delete")
+def get_delete(id):
+  return delete_film(id)
 
 @film_routes.route("/<int:id>", methods=["DELETE"])
 def delete_film(id):
@@ -111,10 +110,10 @@ def delete_film(id):
     try:
       db.session.delete(film)
       db.session.commit()
-      return { "message": f"Successfully deleted {film.title}!" }, 204
+      return redirect("/")
     except Exception as e:
       return { "errors": str(e) }, 500
-  return { "errors": "Actor not found!" }, 404
+  return { "errors": "Film not found!" }, 404
 
 # @film_routes("/<int:id>", methods=["PUT"])
 # def update_film(id):
