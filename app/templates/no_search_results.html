@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>
+  No Search results for {{query}}
+</h2>
+<div>
+  <p>
+    Did you mean:
+  </p>
+  <h3>
+    Films:
+  </h3>
+  <p>
+    {% for id, title in film_queries.items() %}
+    <a href ="/films/{{id}}">{{title}}</a>
+    {% endfor %}
+  </p>
+  <h3>
+    Actors:
+  </h3>
+  <p>
+    {% for id, name in actor_queries.items() %}
+    <a href="/actors/{{id}}/">{{name}}</a>
+    {% endfor %}
+  </p>
+</div>
+{% endblock %}
