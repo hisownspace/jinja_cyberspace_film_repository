@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, redirect
 from datetime import date
 
 from app.models import db, Actor, Film
@@ -53,6 +53,38 @@ def one_actor(id):
 @actor_routes.route("/count")
 def actor_count():
   return { "totalActors": Actor.query.count() }, 200, { "Content-Type": "application/json" }
+
+@actor_routes.route("/add", methods=["GET", "POST"])
+def add_actor():
+  form = ActorForm()
+  
+  form.filmography.choices = [(film.id, film.title) for film in Film.query.all()]
+  
+  if form.validate_on_submit():
+    params = {
+      "name": form.data["name"],
+      "date_of_birth": form.data["date_of_birth"],
+      "place_of_birth": form.data["place_of_birth"],
+      "photo_url": form.data["photo_url"],
+      "bio": form.data["bio"],
+      # "filmography": form.data["filmography"]
+    }
+    
+    print(params)
+    actor = Actor(**params)
+
+    [actor.filmography.append(Film.query.get(id)) for id in form.data["filmography"]]
+
+    try:
+      db.session.add(actor)
+      db.session.commit()
+      return redirect(f"/actors/{actor.id}")
+    except Exception as e:
+      return "Unknown error!"
+  if form.errors:
+    print(form.errors)
+  return render_template("add_actor.html", form=form)
+  
 
 @actor_routes.route("/<int:id>", methods=["DELETE"])
 def delete_actor(id):

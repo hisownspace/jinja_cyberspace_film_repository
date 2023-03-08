@@ -8,7 +8,6 @@ def search():
   
   query = request.args.get("query")
   
-  print(query)
   actor = Actor.query.filter(Actor.name.ilike(query)).first()
   if actor:
     return redirect(f"/actors/{actor.id}")
@@ -20,7 +19,6 @@ def search():
   else:
     actors = Actor.query.all()
     films = Film.query.all()
-    print(films)
     film_queries = {}
     actor_queries = {}
     for actor in actors:
@@ -35,7 +33,6 @@ def search():
   
   
 def check_search(query, name, id):
-    # print(name, id)
     if query[:5] == name[:5]:
       return True
     count = 0
@@ -46,16 +43,13 @@ def check_search(query, name, id):
         idx = query_copy.find(char)
         query_copy = query_copy[:idx] + (query_copy[idx+1:] if idx < len(query_copy) else "")
     if count / len(name) > .90 and abs(len(query)-len(name)) < 5 :
-      print("jumble-match", name)
       return True
     start = 0
     matches = 0
     while start + 4 <= len(query):
       if query[start:start+4] in name:
         matches += 1
-        print(name, query[start:start+4])
       start += 1
     if matches >= 3:
-      print("4-letter match", name)
       return True
     return False

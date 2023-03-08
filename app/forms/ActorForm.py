@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, TextAreaField, SelectField, FieldList, IntegerField, SelectMultipleField
+from wtforms import StringField, DateField, TextAreaField, SelectField, FieldList, SubmitField, SelectMultipleField
 from wtforms.validators import DataRequired, Length, URL, ValidationError, Optional
 from urllib.request import urlopen
 
@@ -11,8 +11,9 @@ class ActorForm(FlaskForm):
   date_of_birth = DateField("Date of Birth", [DataRequired()])
   place_of_birth = StringField("Place of Birth", [Optional(), Length(min=2, max=255)])
   photo_url = StringField("Photo", [DataRequired(), URL(require_tld=True, message="Photo must be a valid URL!")])
-  bio = StringField("String", [Length(max=5000)])
+  bio = TextAreaField("Biography", [Length(max=5000)])
   filmography = SelectMultipleField("Films", choices=[], validate_choice=False, coerce=int)
+  submit = SubmitField("Submit")
   
   def validate_photo_url(form, field):
     try:

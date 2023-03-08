@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{url_for('static', filename='add_actor.css')}}">
+
+<div class="form-main">
+  <h1 class="add-actor-header">
+    Add An Actor!
+  </h1>
+  <form class="addActorForm" method="post" action="/actors/add">
+    {% for field in form %}
+    <div class="errors">
+      {% if field.errors %}{{field.label}}: {{field.errors[0]}}{% endif %}
+    </div>
+      {% if field.name != "submit" and field.name != "csrf_token" and field.name != "filmography" %}
+      {{field.label(class="actor-label")}}
+      {{field(class="actor-input")}}
+      {% elif field.name == "submit" %}
+      <div class="buttonHole" id="search-allowance-buttons">
+        {{field(class="submit-button")}}
+        <a href="{{url_for('index')}}" class="cancel-button">Cancel</a>
+      </div>
+      {% elif field.name == "filmography" %}
+        {{field.label(class="actor-label")}}
+        {{field}}
+      {% else %}
+        {{field}}
+      {% endif %}
+      {% endfor %}
+    <!-- <ul>
+      {films.map((film, idx) => {
+      return (
+      <li key={`film-checkbox-div-${film.id}`} class="checkbox-div">
+        <label class="checkbox-label" htmlFor={`film-checkbox-${film.id}`} key={`film-checkbox-label-${film.id}`}>
+          {film.title}
+        </label>
+        <input type="checkbox" key={`film-checkbox-${film.id}`} id={`film-checkbox-${film.id}`} name={film.title}
+          value={film.title} checked={checkedState[idx]===undefined ? false : checkedState[idx]} onChange={e=>
+        handleCheckedState(e, idx)}
+        />
+      </li>
+      )
+      })}
+    </ul> -->
+  </form>
+</div>
+{% endblock %}
