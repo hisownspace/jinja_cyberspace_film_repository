@@ -88,7 +88,7 @@ def edit_film(id):
     except Exception as e:
       return { "errors": str(e) }, 500
   elif form.errors:
-    return { "errors": form.errors }, 400
+    return render_template("edit_film.html", form=form, id=film.id)
   else:
     form.title.data = film.title
     form.year.data = film.year

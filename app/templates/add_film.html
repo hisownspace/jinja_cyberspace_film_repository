@@ -9,13 +9,16 @@
   </h1>
   <form class="addActorForm" method="post" action="/films/add">
     {% for field in form %}
+      <div class="errors">
+        {% if field.errors %}{{field.label}}: {{field.errors[0]}}{% endif %}
+      </div>
       {% if field.name != "submit" and field.name != "csrf_token" and field.name != "Cast" %}
         {{field.label(class="actor-label")}}
         {{field(class="actor-input")}}
       {% elif field.name == "submit" %}
         <div class="buttonHole" id="search-allowance-buttons">
-          {{field(class="submit-button")}}
           <a href="{{url_for('index')}}" class="cancel-button">Cancel</a>
+          {{field(class="submit-button")}}
         </div>
       {% elif field.name == "Cast" %}
         {{field.label(class="actor-label")}}

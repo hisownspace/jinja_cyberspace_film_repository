@@ -85,6 +85,43 @@ def add_actor():
     print(form.errors)
   return render_template("add_actor.html", form=form)
   
+@actor_routes.route("/<int:id>/edit", methods=["GET", "POST"])
+def edit_actor(id):
+  form = ActorForm()
+  
+  form.filmography.choices = [(film.id, film.title) for film in Film.query.all()]
+
+  actor = Actor.query.get(id)
+
+  if form.validate_on_submit():
+    actor = Actor.query.get(id)
+    
+    actor.name = form.data["name"]
+    actor.date_of_birth = form.data["date_of_birth"]
+    actor.place_of_birth = form.data["place_of_birth"]
+    actor.photo_url = form.data["photo_url"]
+    actor.bio = form.data["bio"]
+    actor.filmography = []
+    [actor.filmography.append(Film.query.get(id)) for id in form.data["filmography"]]
+
+    db.session.commit()
+    return redirect(f"/actors/{actor.id}")
+
+  elif form.errors:
+    return render_template("edit_actor.html", form=form, id=actor.id)
+  else:
+    form.name.data = actor.name
+    form.date_of_birth.data = actor.date_of_birth
+    form.place_of_birth.data = actor.place_of_birth
+    form.photo_url.data = actor.photo_url
+    form.bio.data = actor.bio
+    form.filmography.data = [film.id for film in actor.filmography]
+    
+    return render_template("edit_actor.html", form=form, id=actor.id)
+
+@actor_routes.route("/<int:id>/delete")
+def get_delete(id):
+  return delete_actor(id)
 
 @actor_routes.route("/<int:id>", methods=["DELETE"])
 def delete_actor(id):
@@ -92,7 +129,8 @@ def delete_actor(id):
   if actor:
     db.session.delete(actor)
     db.session.commit()
-    return { "message": f"Successfully deleted {actor.name}!" }, 204, { "Content-Type": "application/json" }
+    return redirect("/")
+    # return { "message": f"Successfully deleted {actor.name}!" }, 204, { "Content-Type": "application/json" }
   return { "errors": "Actor not found!" }, 404, { "Content-Type": "application/json" }
 
 @actor_routes.route("/<int:id>", methods=["PUT"])

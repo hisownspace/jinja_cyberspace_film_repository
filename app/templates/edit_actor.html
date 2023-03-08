@@ -5,9 +5,9 @@
 
 <div class="form-main">
   <h1 class="add-actor-header">
-    Add An Actor!
+    Edit {{form.name.data}}
   </h1>
-  <form class="addActorForm" method="post" action="/actors/add">
+  <form class="addActorForm" method="post" action="/actors/{{id}}/edit">
     {% for field in form %}
     <div class="errors">
       {% if field.errors %}{{field.label}}: {{field.errors[0]}}{% endif %}
@@ -17,7 +17,7 @@
       {{field(class="actor-input")}}
       {% elif field.name == "submit" %}
       <div class="buttonHole" id="search-allowance-buttons">
-        <a href="{{url_for('index')}}" class="cancel-button">Cancel</a>
+        <a href="/actors/{{id}}" class="cancel-button">Cancel</a>
         {{field(class="submit-button")}}
       </div>
       {% elif field.name == "filmography" %}
