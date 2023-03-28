@@ -3,3 +3,5 @@ instance/
 instance/*
 .venv
 /.vscode
+react-app/
+react-app/*
