@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 
+{% block title %}
+<title>{{form.title.data}}</title>
+{% endblock %}
+
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='add_film.css') }}">
 
 <div class="form-main">
   <h1 class="add-actor-header">
-    Edit {{form.title.data}}!
+    Edit {{form.title.data}}
   </h1>
   <form class="addActorForm" method="post" action="/films/{{id}}/edit">
     {% for field in form %}

@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <title>Cyberspace Film Repository</title>
+    {% block title %}
+      <title>Cyberspace Film Repository</title>
+    {% endblock %}
   </head>
   <body>
     <div id="root">
